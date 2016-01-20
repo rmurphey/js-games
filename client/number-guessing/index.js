@@ -1,1 +1,5 @@
-console.log('it works');
+let foo = () => {
+  console.log('it works');
+};
+
+foo();
