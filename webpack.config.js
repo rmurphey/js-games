@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  context : __dirname,
+  context : path.join(__dirname, 'client'),
   entry : {
     'number-guessing' : './number-guessing/index'
   },
@@ -25,6 +25,6 @@ module.exports = {
     ]
   },
   devServer : {
-    contentBase : __dirname
+    contentBase : path.join(__dirname, 'client')
   }
 };
