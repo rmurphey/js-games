@@ -16,7 +16,7 @@ module.exports = {
         exclude : /node_modules/,
         loader : 'babel',
         query : {
-          cacheDirectory : !(process.env.NODE_ENV === 'production'),
+          cacheDirectory : true,
           presets : [
             'es2015'
           ]
