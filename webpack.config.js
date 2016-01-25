@@ -3,7 +3,8 @@ var path = require('path');
 module.exports = {
   context : path.join(__dirname, 'client'),
   entry : {
-    'number-guessing' : './number-guessing/index'
+    'number-guessing' : './number-guessing/index',
+    'word-guessing' : './word-guessing/index'
   },
   output : {
     path : path.join(__dirname, 'dist'),
@@ -21,6 +22,10 @@ module.exports = {
             'es2015'
           ]
         }
+      },
+      {
+        test : /.css$/,
+        loader : 'style-loader!css-loader'
       }
     ]
   },

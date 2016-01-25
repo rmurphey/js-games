@@ -1,0 +1,14 @@
+.word-component {
+  overflow: auto;
+  margin-bottom: 20px;
+}
+.word-component span {
+  font-family: Helvetica;
+  display: inline-block;
+  border: 1px solid black;
+  margin-right: 10px;
+  height: 1.5em;
+  width: 1.5em;
+  padding: 5px;
+  text-align: center;
+}
