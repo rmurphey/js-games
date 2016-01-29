@@ -1,5 +1,4 @@
-import { createStore } from 'redux';
-
+import Store from '../lib/store';
 import config from './config';
 
 let handlers = {
@@ -49,10 +48,6 @@ let handlers = {
   }
 };
 
-function reducer (state = {}, action) {
-  return handlers[action.type] ? handlers[action.type](state, action) : state;
-}
-
 function getTargetWord (words) {
   return words[Math.floor(Math.random() * words.length)];
 }
@@ -72,6 +67,6 @@ function initialData () {
   };
 }
 
-let store = createStore(reducer, initialData());
+let store = Store(initialData, handlers);
 
 export { store };
