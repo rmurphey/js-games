@@ -27,6 +27,12 @@ function render (destination, components, state) {
     let fragment = document.createRange().createContextualFragment(html);
     destination.appendChild(fragment);
 
+    let lastChildNode = destination.children[destination.children.length - 1];
+
+    if (c.postRender) {
+      c.postRender(lastChildNode, state);
+    }
+
     if (!c.listeners) {
       return;
     }
@@ -35,8 +41,7 @@ function render (destination, components, state) {
 
     Object.keys(listeners).forEach((selector) => {
       let el = selector === 'self' ?
-        destination.lastChild :
-        destination.lastChild.querySelector(selector);
+        lastChildNode : lastChildNode.querySelector(selector);
 
       if (!el) {
         return;

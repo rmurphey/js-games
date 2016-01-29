@@ -4,7 +4,8 @@ module.exports = {
   context : path.join(__dirname, 'client'),
   entry : {
     'number-guessing' : './number-guessing/index',
-    'word-guessing' : './word-guessing/index'
+    'word-guessing' : './word-guessing/index',
+    'canvas-repl' : './canvas-repl/index'
   },
   output : {
     path : path.join(__dirname, 'dist'),
