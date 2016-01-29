@@ -8,8 +8,8 @@ let repl = {
   },
   postRender(rootEl, state) {
     let textarea = rootEl.querySelector('textarea');
-    let pos = state.replValue.length;
     textarea.focus();
+    let pos = state.replValue.length;
     textarea.setSelectionRange(pos, pos);
   },
   listeners() {
