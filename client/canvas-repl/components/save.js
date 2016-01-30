@@ -12,21 +12,17 @@ let save = {
       'button[name="save"]' : [
         {
           event : 'click',
-          handler : () => {
-            store.dispatch({
-              type : 'SAVE'
-            });
-          }
+          handler : () => store.dispatch({
+            type : 'SAVE'
+          })
         }
       ],
       'button[name="load"]' : [
         {
           event : 'click',
-          handler : () => {
-            store.dispatch({
-              type : 'LOAD'
-            });
-          }
+          handler : () => store.dispatch({
+            type : 'LOAD'
+          })
         }
       ]
     };

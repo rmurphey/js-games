@@ -5,9 +5,19 @@ const CANVAS_HEIGHT = config.canvas.width;
 
 import { move } from '../lib/move';
 
+function circle (context, { x, y }, radius, fill) {
+  context.beginPath();
+  context.arc(x, y, radius, 0, 2 * Math.PI, false);
+  context.fillStyle = fill || 'black';
+  context.fill();
+  return context;
+}
+
 let canvasComponent = {
   render() {
-    return `<canvas width="${CANVAS_WIDTH}" height="${CANVAS_HEIGHT}"></canvas>`;
+    return `<canvas
+      width="${CANVAS_WIDTH}"
+      height="${CANVAS_HEIGHT}"></canvas>`;
   },
   postRender(rootEl, state) {
     let context = rootEl.getContext('2d');
@@ -22,23 +32,16 @@ let canvasComponent = {
     // do the drawing ...
     points.forEach((point) => {
       context.lineTo(point.x, point.y);
-      x = point.x;
-      y = point.y;
+      ({ x, y } = point);
     });
 
     context.strokeStyle = 'black';
     context.stroke();
 
-    context.beginPath();
-    context.arc(x, y, 5, 0, 2 * Math.PI, false);
-    context.fillStyle = 'red';
-    context.fill();
+    circle(context, { x, y }, 5, 'red');
 
     let tip = move({ x, y }, 5, currentAngle);
-    context.beginPath();
-    context.arc(tip.x, tip.y, 3, 0, 2 * Math.PI, false);
-    context.fillStyle = 'black';
-    context.fill();
+    circle(context, tip, 3, 'black');
   }
 };
 

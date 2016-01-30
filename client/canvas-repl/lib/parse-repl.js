@@ -42,8 +42,7 @@ function parseRepl (replValue) {
       points.push(point);
 
       // We set new values for x and y so we can process the next line.
-      x = point.x;
-      y = point.y;
+      ({ x, y } = point);
     }
   });
 
