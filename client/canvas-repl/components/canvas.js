@@ -13,6 +13,22 @@ function circle (context, { x, y }, radius, fill) {
   return context;
 }
 
+function path (context, { x, y }, points) {
+  context.beginPath();
+  context.moveTo(x, y);
+
+  // do the drawing ...
+  points.forEach((point) => {
+    context.lineTo(point.x, point.y);
+    ({ x, y } = point);
+  });
+
+  context.strokeStyle = 'black';
+  context.stroke();
+
+  return { x, y };
+}
+
 let canvasComponent = {
   render() {
     return `<canvas
@@ -26,22 +42,19 @@ let canvasComponent = {
 
     let { points, currentAngle } = state;
 
-    context.beginPath();
-    context.moveTo(x, y);
+    let {
+      x : finalX,
+      y : finalY
+    } = path(context, { x, y }, points);
 
-    // do the drawing ...
-    points.forEach((point) => {
-      context.lineTo(point.x, point.y);
-      ({ x, y } = point);
-    });
+    circle(context, { x : finalX, y : finalY }, 5, 'red');
 
-    context.strokeStyle = 'black';
-    context.stroke();
-
-    circle(context, { x, y }, 5, 'red');
-
-    let tip = move({ x, y }, 5, currentAngle);
-    circle(context, tip, 3, 'black');
+    circle(
+      context,
+      move({ x : finalX, y : finalY }, 5, currentAngle),
+      3,
+      'black'
+    );
   }
 };
 
