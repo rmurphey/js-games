@@ -1,4 +1,5 @@
 import { store } from '../store';
+import { saveAction, loadAction } from '../actions';
 
 let save = {
   render(state) {
@@ -12,17 +13,13 @@ let save = {
       'button[name="save"]' : [
         {
           event : 'click',
-          handler : () => store.dispatch({
-            type : 'SAVE'
-          })
+          handler : () => store.dispatch(saveAction())
         }
       ],
       'button[name="load"]' : [
         {
           event : 'click',
-          handler : () => store.dispatch({
-            type : 'LOAD'
-          })
+          handler : () => store.dispatch(loadAction())
         }
       ]
     };

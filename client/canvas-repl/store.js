@@ -1,40 +1,25 @@
 import Store from '../lib/store';
-import { parseRepl } from './lib/parse-repl.js';
-
-let { localStorage } = window;
 
 let handlers = {
   REPL_VALUE(state, action) {
-    let { points, currentAngle } = parseRepl(action.data);
-
     return Object.assign({}, state, {
-      replValue : action.data,
       saved : false,
-      points,
-      currentAngle
+      replValue : action.replValue,
+      points : action.points,
+      currentAngle : action.currentAngle
     });
   },
   SAVE(state) {
-    let { replValue, points, currentAngle } = state;
-    localStorage.setItem('canvas-repl', JSON.stringify({
-      replValue, points, currentAngle
-    }));
     return Object.assign({}, state, {
       saved : true
     });
   },
-  LOAD(state) {
-    let stored = localStorage.getItem('canvas-repl');
-
-    if (!stored) {
-      return state;
-    }
-
+  LOAD(state, action) {
     let {
       replValue,
       points,
       currentAngle
-    } = JSON.parse(stored);
+    } = action.data;
 
     return Object.assign({}, state, {
       saved : true,

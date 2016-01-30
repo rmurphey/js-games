@@ -1,4 +1,5 @@
 import { store } from '../store';
+import { replEnterAction } from '../actions';
 
 let repl = {
   render(state) {
@@ -22,10 +23,7 @@ let repl = {
               return;
             }
 
-            store.dispatch({
-              type : 'REPL_VALUE',
-              data : e.target.value
-            });
+            store.dispatch(replEnterAction(e.target.value));
           }
         }
       ]
