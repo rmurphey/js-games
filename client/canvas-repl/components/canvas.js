@@ -1,20 +1,26 @@
 const CANVAS_WIDTH = 500;
 const CANVAS_HEIGHT = 500;
 
-function moveFrom({ x, y }, distance, direction) {
-  // As the player enters a command like GO 10, we need
-  // to translate that to a new point value. Whether we
-  // increase or decrease x or y depends on the direction
-  // we're pointed in, as defined by the current value of
-  // `direction`. So, for example, a move to the south will
-  // decrease y and make no change to x.
-  //             N, E, S, W
-  let xDelta = [ 0, 1, 0, -1 ];
-  let yDelta = [ -1, 0, 1, 0 ];
+function moveFrom({ x, y }, distance, angle) {
+  let quadrant = Math.floor(angle / 90);
+  let transpose = [ 1, 3 ].includes(quadrant);
+  let quadAngle = angle % 90;
+  let radians = (quadAngle * Math.PI) / 180;
+
+  let multipliers = [
+    { x : 1, y : -1 },
+    { x : 1, y : 1 },
+    { x : -1, y : 1 },
+    { x : -1, y : -1 }
+  ][quadrant];
 
   return {
-    x : x + (xDelta[direction] * distance),
-    y : y + (yDelta[direction] * distance)
+    x : x + (multipliers.x * distance * Math[
+      transpose ? 'cos' : 'sin'
+    ](radians)),
+    y : y + (multipliers.y * distance * Math[
+      transpose ? 'sin' : 'cos'
+    ](radians))
   };
 }
 
@@ -22,39 +28,36 @@ function parseRepl ({ replValue }) {
   let lines = replValue.split('\n');
   let x = CANVAS_WIDTH / 2;
   let y = CANVAS_HEIGHT / 2;
-  let points = [];
 
-  // As the player issues commands like TURN RIGHT,
-  // this value will cycle through 0-3, where 0 represents
-  // North, 1 represents East, etc.
-  let direction = 0;
+  let points = [];
+  let currentAngle = 0;
 
   lines.forEach((line) => {
     line = line.toLowerCase();
 
     // For lines that instruct a turn, we set the direction
     // and move to the next line.
-    if (line === 'turn right') {
-      direction = direction + 1;
-      if (direction > 3) {
-        direction = 0;
+    if (line.match(/^turn right/)) {
+      let angle = parseInt(line.split(' ')[2], 10);
+      currentAngle += angle;
+      if (currentAngle >= 360) {
+        currentAngle = currentAngle - 360;
       }
-      return;
     }
 
-    if (line === 'turn left') {
-      direction = direction - 1;
-      if (direction < 0) {
-        direction = 3;
+    if (line.match(/^turn left/)) {
+      let angle = parseInt(line.split(' ')[2], 10);
+      currentAngle -= angle;
+      if (currentAngle < 0) {
+        currentAngle = 360 + currentAngle;
       }
-      return;
     }
 
     // For lines that instruct movement, we use the direction
     // and distance information to define a new x, y point.
     if (line.match(/^go \d+/)) {
-      let distance = line.split(' ')[1];
-      let point = moveFrom({ x, y }, distance, direction);
+      let distance = parseInt(line.split(' ')[1], 10);
+      let point = moveFrom({ x, y }, distance, currentAngle);
 
       points.push(point);
 
@@ -64,7 +67,7 @@ function parseRepl ({ replValue }) {
     }
   });
 
-  return points;
+  return { points, currentAngle };
 }
 
 let canvasComponent = {
@@ -76,8 +79,7 @@ let canvasComponent = {
     let x = CANVAS_WIDTH / 2;
     let y = CANVAS_HEIGHT / 2;
 
-    let points = parseRepl(state);
-    // console.log(instructions);
+    let { points, currentAngle } = parseRepl(state);
 
     context.beginPath();
     context.moveTo(x, y);
@@ -89,11 +91,17 @@ let canvasComponent = {
       y = point.y;
     });
 
-    context.strokeStyle = 'green';
+    context.strokeStyle = 'black';
     context.stroke();
 
     context.beginPath();
     context.arc(x, y, 5, 0, 2 * Math.PI, false);
+    context.fillStyle = 'red';
+    context.fill();
+
+    let tip = moveFrom({ x, y }, 5, currentAngle);
+    context.beginPath();
+    context.arc(tip.x, tip.y, 3, 0, 2 * Math.PI, false);
     context.fillStyle = 'black';
     context.fill();
   }
