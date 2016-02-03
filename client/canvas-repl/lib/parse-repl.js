@@ -1,5 +1,5 @@
 import config from '../config';
-import move from './move';
+import { move } from './move';
 
 const CANVAS_WIDTH = config.canvas.height;
 const CANVAS_HEIGHT = config.canvas.width;
