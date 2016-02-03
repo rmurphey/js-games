@@ -1,12 +1,19 @@
 var path = require('path');
+var fs = require('fs');
+
+var entries = {};
+
+var games = fs.readdirSync(
+  path.join(__dirname, 'client')
+).filter((dir) => {
+  return !dir.match('lib');
+}).forEach((dir) => {
+  entries[dir] = `./${dir}/index`;
+});
 
 module.exports = {
   context : path.join(__dirname, 'client'),
-  entry : {
-    'number-guessing' : './number-guessing/index',
-    'word-guessing' : './word-guessing/index',
-    'canvas-repl' : './canvas-repl/index'
-  },
+  entry : entries,
   output : {
     path : path.join(__dirname, 'dist'),
     filename : '[name].js'
