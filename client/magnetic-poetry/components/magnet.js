@@ -1,6 +1,6 @@
 let magnetProto = {
   render() {
-    return `<div class="magnet" draggable="true">${this.word}</magnet>`;
+    return `<div class="magnet" draggable="true">${this.word.str}</magnet>`;
   },
   listeners() {
     let word = this.word;
@@ -12,7 +12,7 @@ let magnetProto = {
           handler : (e) => {
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData(
-              'text/plain', word
+              'text/plain', JSON.stringify(word)
             );
             e.target.classList.add('in-motion');
           }

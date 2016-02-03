@@ -15,6 +15,7 @@ let refrigerator = {
           handler : (e) => {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
+            return false;
           }
         },
         {
@@ -23,7 +24,9 @@ let refrigerator = {
             e.preventDefault();
 
             store.dispatch(
-              addToRefrigerator(e.dataTransfer.getData('text/plain'))
+              addToRefrigerator({
+                word : JSON.parse(e.dataTransfer.getData('text/plain'))
+              })
             );
           }
         }

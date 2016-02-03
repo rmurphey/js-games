@@ -1,11 +1,11 @@
-function addToRefrigerator(word) {
+function addToRefrigerator({ word }) {
   return {
     type : 'ADD_TO_REFRIGERATOR',
     word
   };
 }
 
-function addToDictionary(word) {
+function addToDictionary({ word }) {
   return {
     type : 'ADD_TO_DICTIONARY',
     word

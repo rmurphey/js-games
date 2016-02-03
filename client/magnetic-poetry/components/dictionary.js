@@ -22,7 +22,9 @@ let dictionary = {
           handler : (e) => {
             e.preventDefault();
             store.dispatch(
-              addToDictionary(e.dataTransfer.getData('text/plain'))
+              addToDictionary({
+                word : JSON.parse(e.dataTransfer.getData('text/plain'))
+              })
             );
           }
         }
