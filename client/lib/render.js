@@ -1,11 +1,6 @@
 let boundListeners = [];
 
-function addEvent (element, event, handler) {
-  element.addEventListener(event, handler, false);
-  return () => {
-    element.removeEventListener(event, handler, false);
-  };
-}
+import { renderComponent } from './render-component';
 
 function render (destination, components, state) {
   // unbind event listeners
@@ -17,43 +12,11 @@ function render (destination, components, state) {
   }
 
   // generate the component markup and bind the event listeners
-  components.forEach((c) => {
-    let html = c.render(state);
-
-    if (!html) {
-      return;
-    }
-
-    let fragment = document.createRange().createContextualFragment(html);
-    destination.appendChild(fragment);
-
-    let lastChildNode = destination.children[destination.children.length - 1];
-
-    if (c.postRender) {
-      c.postRender(lastChildNode, state);
-    }
-
-    if (!c.listeners) {
-      return;
-    }
-
-    let listeners = c.listeners();
-
-    Object.keys(listeners).forEach((selector) => {
-      let el = selector === 'self' ?
-        lastChildNode : lastChildNode.querySelector(selector);
-
-      if (!el) {
-        return;
-      }
-
-      let events = listeners[selector];
-
-      events.forEach((evt) => {
-        addEvent(el, evt.event, evt.handler);
-      });
-    });
-  });
+  boundListeners = components
+    .map(renderComponent.bind(null, destination, state))
+    .reduce((_boundListeners, componentListeners) => {
+      return _boundListeners.concat(componentListeners);
+    }, []);
 }
 
 export default render;
