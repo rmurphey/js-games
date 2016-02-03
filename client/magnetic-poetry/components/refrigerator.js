@@ -23,10 +23,22 @@ let refrigerator = {
           handler : (e) => {
             e.preventDefault();
 
+            let word = JSON.parse(e.dataTransfer.getData('text/plain'));
+            let { target } = e;
+            let { offsetX, offsetY } = word;
+
+            while (!target.className.match('refrigerator')) {
+              target = target.parentNode;
+            }
+
+            let { clientX, clientY } = e;
+            let { top, left } = target.getBoundingClientRect();
+
+            left = clientX - left - offsetX;
+            top = clientY - top - offsetY;
+
             store.dispatch(
-              addToRefrigerator({
-                word : JSON.parse(e.dataTransfer.getData('text/plain'))
-              })
+              addToRefrigerator({ word, top, left })
             );
           }
         }

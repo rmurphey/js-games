@@ -1,6 +1,12 @@
 let magnetProto = {
   render() {
-    return `<div class="magnet" draggable="true">${this.word.str}</magnet>`;
+    let { str, top, left } = this.word;
+    let style = top && left ? `top:${top}px;left:${left}px` : '';
+
+    return `<div
+      style="${style}"
+      class="magnet"
+      draggable="true">${str}</magnet>`;
   },
   listeners() {
     let word = this.word;
@@ -10,6 +16,9 @@ let magnetProto = {
         {
           event : 'dragstart',
           handler : (e) => {
+            word.offsetX = e.offsetX;
+            word.offsetY = e.offsetY;
+
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData(
               'text/plain', JSON.stringify(word)
@@ -24,7 +33,9 @@ let magnetProto = {
 
 function magnetFactory (word) {
   let magnet = Object.create(magnetProto);
+
   magnet.word = word;
+
   return magnet;
 }
 
