@@ -40,6 +40,15 @@ let handlers = {
       dictionaryWords,
       refrigeratorWords : []
     });
+  },
+  ADD_WORD(state, { word, id }) {
+    return Object.assign({}, state, {
+      dictionaryWords : state.dictionaryWords.concat([{
+        str : word, id
+      }]),
+      currentDictionary : 'custom',
+      dictionaries : state.dictionaries.concat([ 'custom' ])
+    });
   }
 };
 

@@ -30,9 +30,20 @@ function dictionaryLoaded(dictionaryWords) {
   };
 }
 
+function addCustomWord(word) {
+  let id = `custom-${new Date().getTime()}`;
+
+  return {
+    type : 'ADD_WORD',
+    word,
+    id
+  };
+}
+
 export {
   addToDictionary,
   addToRefrigerator,
+  addCustomWord,
   dictionaryChange,
   dictionaryLoaded
 };
