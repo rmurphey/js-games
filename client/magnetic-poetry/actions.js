@@ -14,7 +14,25 @@ function addToDictionary({ word }) {
   };
 }
 
+function dictionaryChange(currentDictionary) {
+  return {
+    type : 'DICTIONARY_CHANGE',
+    loading : true,
+    currentDictionary
+  };
+}
+
+function dictionaryLoaded(dictionaryWords) {
+  return {
+    type : 'DICTIONARY_LOADED',
+    loading : false,
+    dictionaryWords
+  };
+}
+
 export {
   addToDictionary,
-  addToRefrigerator
+  addToRefrigerator,
+  dictionaryChange,
+  dictionaryLoaded
 };

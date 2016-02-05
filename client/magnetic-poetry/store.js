@@ -27,14 +27,31 @@ let handlers = {
         return w.id !== id;
       })
     });
+  },
+  DICTIONARY_CHANGE(state, { currentDictionary, loading }) {
+    return Object.assign({}, state, {
+      currentDictionary,
+      loading
+    });
+  },
+  DICTIONARY_LOADED(state, { loading, dictionaryWords }) {
+    return Object.assign({}, state, {
+      loading,
+      dictionaryWords,
+      refrigeratorWords : []
+    });
   }
 };
 
 function initialData () {
   return {
+    loading : true,
+    currentDictionary : 'poet',
+    dictionaries : [
+      'poet',
+      'shakespeare'
+    ],
     dictionaryWords : [
-      { id : 1, str : 'hello' },
-      { id : 2, str : 'world' }
     ],
     refrigeratorWords : [
     ]
