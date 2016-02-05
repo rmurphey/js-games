@@ -19,3 +19,4 @@ Once the server is running, you can see the following games:
 - [number-guessing](http://localhost:8080/number-guessing/)
 - [word-guessing](http://localhost:8080/word-guessing)
 - [canvas-repl](http://localhost:8080/canvas-repl)
+- [magnetic-poetry](http://localhost:8080/magnetic-poetry)
