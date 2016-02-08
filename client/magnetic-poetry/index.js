@@ -1,3 +1,5 @@
+import qs from 'query-string';
+
 import render from '../lib/render';
 import { store } from './store';
 import { initializeData } from './data';
@@ -23,4 +25,6 @@ store.subscribe(() => {
   render(content, components, store.getState());
 });
 
-initializeData();
+initializeData({
+  poem : qs.parse(window.location.search).poem
+});

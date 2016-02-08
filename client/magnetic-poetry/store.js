@@ -66,6 +66,9 @@ let handlers = {
       saved : data.key,
       saveError : false
     });
+  },
+  LOAD_COMPLETE(state, { data }) {
+    return Object.assign({}, state, data);
   }
 };
 

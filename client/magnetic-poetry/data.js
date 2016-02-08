@@ -23,6 +23,33 @@ function loadData () {
   });
 }
 
+function loadPoem (initialState) {
+  let { poem } = initialState;
+
+  if (!poem) {
+    return;
+  }
+
+  fetch(`${baseUrl}/poem/${poem}`, {
+    mode : 'cors'
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error(`Fetch error`);
+    }
+
+    return response.text();
+  }).then((txt) => {
+    let data = JSON.parse(txt);
+
+    store.dispatch({
+      type : 'LOAD_COMPLETE',
+      data
+    });
+  }).catch(() => {
+    loadData();
+  });
+}
+
 function saveData (cb) {
   let data = store.getState();
 
@@ -41,8 +68,13 @@ function saveData (cb) {
   });
 }
 
-function initializeData () {
+function initializeData (initialState) {
   store.subscribe(loadData);
+
+  if (initialState.poem) {
+    return loadPoem(initialState);
+  }
+
   loadData();
 }
 
