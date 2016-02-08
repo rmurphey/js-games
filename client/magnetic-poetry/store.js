@@ -11,7 +11,8 @@ let handlers = {
         .concat([ word ]),
       dictionaryWords : state.dictionaryWords.filter((w) => {
         return w.id !== id;
-      })
+      }),
+      saved : false
     });
   },
 
@@ -25,20 +26,23 @@ let handlers = {
         .concat([ word ]),
       refrigeratorWords : state.refrigeratorWords.filter((w) => {
         return w.id !== id;
-      })
+      }),
+      saved : false
     });
   },
   DICTIONARY_CHANGE(state, { currentDictionary, loading }) {
     return Object.assign({}, state, {
       currentDictionary,
-      loading
+      loading,
+      saved : false
     });
   },
   DICTIONARY_LOADED(state, { loading, dictionaryWords }) {
     return Object.assign({}, state, {
       loading,
       dictionaryWords,
-      refrigeratorWords : []
+      refrigeratorWords : [],
+      saved : false
     });
   },
   ADD_WORD(state, { word, id }) {
@@ -47,13 +51,27 @@ let handlers = {
         str : word, id
       }]),
       currentDictionary : 'custom',
-      dictionaries : state.dictionaries.concat([ 'custom' ])
+      dictionaries : state.dictionaries.concat([ 'custom' ]),
+      saved : false
+    });
+  },
+  SAVE_ERROR(state, { err }) {
+    return Object.assign({}, state, {
+      saved : false,
+      saveError : err
+    });
+  },
+  SAVE_COMPLETE(state, { data }) {
+    return Object.assign({}, state, {
+      saved : data.key,
+      saveError : false
     });
   }
 };
 
 function initialData () {
   return {
+    saved : false,
     loading : true,
     currentDictionary : 'poet',
     dictionaries : [

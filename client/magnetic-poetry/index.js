@@ -6,13 +6,15 @@ import dictionaries from './components/dictionaries';
 import dictionary from './components/dictionary';
 import customWord from './components/custom-word';
 import refrigerator from './components/refrigerator';
+import save from './components/save';
 
 const content = document.getElementById('content');
 const components = [
   dictionaries,
   dictionary,
   customWord,
-  refrigerator
+  refrigerator,
+  save
 ];
 
 render(content, components, store.getState());

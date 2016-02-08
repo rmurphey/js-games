@@ -1,3 +1,5 @@
+import { saveData } from './data';
+
 function addToRefrigerator({ word, top, left }) {
   let { str, id } = word;
 
@@ -40,10 +42,26 @@ function addCustomWord(word) {
   };
 }
 
+function save(cb) {
+  saveData((err, data) => {
+    if (err) {
+      return cb({
+        type : 'SAVE_ERROR',
+        err
+      });
+    }
+    cb({
+      type : 'SAVE_COMPLETE',
+      data
+    });
+  });
+}
+
 export {
   addToDictionary,
   addToRefrigerator,
   addCustomWord,
   dictionaryChange,
-  dictionaryLoaded
+  dictionaryLoaded,
+  save
 };
